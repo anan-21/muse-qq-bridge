@@ -5,6 +5,7 @@ import grp
 import os
 from pathlib import Path
 import pwd
+import re
 import subprocess
 import sys
 import tempfile
@@ -18,7 +19,17 @@ def unit_quote(value):
 
 
 def render(template, project, data, python, user, group, script):
-    values = {'USER': user, 'GROUP': group, 'PROJECT': project, 'DATA': data,
+    # Scalar directives do not share ExecStart's argument unquoting rules.
+    for identity in (user, group):
+        if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_.-]*[$]?', identity):
+            raise ValueError('unsupported service identity')
+    workdir = str(project)
+    if not Path(workdir).is_absolute() or any(c in workdir for c in '\n\r\0'):
+        raise ValueError('invalid working directory')
+    scalars = {'USER': user, 'GROUP': group, 'WORKDIR': workdir.replace('%', '%%')}
+    for name, value in scalars.items():
+        template = template.replace('@' + name + '@', value)
+    values = {'DATA': data,
               'PYTHON': python, 'PROJECT_SCRIPT': Path(project) / script}
     for name, value in values.items():
         template = template.replace('@' + name + '@', unit_quote(value))

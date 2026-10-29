@@ -61,6 +61,8 @@ class ConfigurationContracts(unittest.TestCase):
                       'botuser', 'botgroup', 'adapter.py')
         self.assertIn('"/opt/test project/.venv/bin/python"', text)
         self.assertIn('ReadWritePaths="/srv/test data"', text)
+        self.assertIn('WorkingDirectory=/opt/test project\n', text)
+        self.assertIn('User=botuser\nGroup=botgroup\n', text)
         self.assertNotIn('@PROJECT@', text)
         self.assertNotIn('AppSecret', text)
 
@@ -69,11 +71,13 @@ class ConfigurationContracts(unittest.TestCase):
         project = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory() as t:
             data = Path(t) / 'private data'; data.mkdir()
+            spaced_project = Path(t) / 'project with spaces'
+            spaced_project.symlink_to(project, target_is_directory=True)
             paths = []
             for name, script in [('muse-qq-adapter', 'adapter.py'), ('muse-qq-bridge', 'run_bridge.py')]:
                 p = Path(t) / (name + '.service')
                 p.write_text(render((project / 'deploy' / (name + '.service.in')).read_text(),
-                    project, data, sys.executable, pwd.getpwuid(os.getuid()).pw_name,
+                    spaced_project, data, sys.executable, pwd.getpwuid(os.getuid()).pw_name,
                     grp.getgrgid(os.getgid()).gr_name, script))
                 paths.append(str(p))
             q = subprocess.run(['systemd-analyze', 'verify', *paths], capture_output=True, text=True)

@@ -14,4 +14,9 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: python -m pip install -r requirements.txt
+      - name: Check Muse script dependencies and syntax
+        run: |
+          command -v curl
+          command -v jq
+          bash -n muse/qq-bridge-inbox.sh muse/qq-bridge-reply.sh
       - run: python -m unittest discover -v

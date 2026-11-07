@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Reorganize the README around capabilities, setup prerequisites and document navigation; move the complete setup walkthrough into `docs/quickstart.md`.
 - Add a source-restricted, read-only `/inbox-tailnet` endpoint for wake-time message delivery.
 - Include configurable Muse-side inbox and reply helpers with pending-only fallback and private timing logs.
 - Document one-consumer hook operation, autonomous tool use, send-before-ack handling, and latency boundaries.

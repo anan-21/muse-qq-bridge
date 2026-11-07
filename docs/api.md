@@ -20,7 +20,7 @@
 {"messages":[{"id":"qqc:example-message-digest","from":"10001","text":"你好","time":1700000000,"acked":false}]}
 ```
 
-`id` 是桥消息 ID，供去重和 ack；`from` 是初始化时的本地兼容别名。不要将它解释为平台 `user_openid` 或真实 QQ 号。
+`id` 是桥消息 ID，供去重和 ack；`from` 原样来自桥配置的 `ALLOWED_QQ`。官方适配器使用本地兼容别名，不是平台 `user_openid` 或真实 QQ 号；自备小号协议端使用其白名单数字 QQ 号。调用者应保留原值，不能在两条路线之间转换身份。
 
 ## GET /inbox-tailnet
 
@@ -46,11 +46,11 @@
 {"ok":true,"onebot_status":200,"message_id":"upstream-message-receipt"}
 ```
 
-桥通过适配器的 `/send_private_msg` 完成发送。适配器仅在上游给出消息回执后返回 `status=ok, retcode=0`。
+桥通过 `ONEBOT_HTTP` 所指协议端的 `/send_private_msg` 完成发送。仓库内官方适配器仅在上游给出消息回执后返回 `status=ok, retcode=0`；自备协议端也必须返回有效回执，接线要求见 [OneBot 说明](onebot.md)。
 
 失败时桥通常返回 HTTP 502，以及 `outcome=unknown`、`retry_safe=false`、可用时的 `onebot_retcode`。**不要因为超时就重复发送，也不要先 ack。** 人工确认后再决定如何恢复。
 
-适配器常见非零码：
+以下是仓库内官方适配器的常见非零码，不是第三方 OneBot 协议端的通用错误码：
 
 | 码 | 含义 |
 | --- | --- |

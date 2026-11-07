@@ -12,6 +12,16 @@
 
 Historical operational lessons remain in docs/lessons.md with their evidence limits.
 
+## Bug 003 — Hosted merges can reintroduce a private commit identity
+
+- Symptom: source commits used a public noreply identity, but hosted squash merges selected a personal author email from the account's default identity. A historical documentation version also retained a private agent nickname.
+- Reproduction: inspect all reachable commit author/committer fields and historical blobs, rather than scanning only the current source tree. Review output must report categories and counts without reproducing private values.
+- Cause: release review covered exported files and feature commits but did not verify the final hosted merge metadata and all retained history.
+- Fix: use an explicit noreply author and committer for local commits, promote the verified commit without a hosted identity substitution, and prepare an isolated history cleanup with a private rollback mirror. Remove old private literals without changing the current source tree.
+- Regression: compare current tree IDs before/after cleanup and scan the complete reachable commit metadata and blobs for private literals. A local pre-push guard must reject the original affected history and accept the cleaned history. Hosted read-only PR refs and old cached views remain a separate removal step.
+- Prevention: verify the identity and contents of the exact published head; a clean current tree or clean feature commit cannot establish that public repository history is clean.
+- Scope: public repository documentation and Git metadata only; no running QQ or Muse service changes.
+
 ## Bug 002 — Exported helper assumptions did not form a portable client contract
 
 - Symptom: the exported GNU-date timestamp format produced a literal `3N` on macOS; the direct-connect flag only skipped an explicit proxy argument; a bare `ok=true` could reach acknowledgement without a receipt.

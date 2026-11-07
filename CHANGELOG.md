@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Present the project as Muse-to-QQ integration, distinguish the bundled official adapter from self-managed OneBot account connections, and document the scope of reported adult text chat capabilities without delivery guarantees.
+
 - Reorganize the README around capabilities, setup prerequisites and document navigation; move the complete setup walkthrough into `docs/quickstart.md`.
 - Add a source-restricted, read-only `/inbox-tailnet` endpoint for wake-time message delivery.
 - Include configurable Muse-side inbox and reply helpers with pending-only fallback and private timing logs.

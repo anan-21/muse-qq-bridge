@@ -11,3 +11,14 @@
 - Fixed in: initial-publication follow-up pull request.
 
 Historical operational lessons remain in docs/lessons.md with their evidence limits.
+
+## Bug 002 — Exported helper assumptions did not form a portable client contract
+
+- Symptom: the exported GNU-date timestamp format produced a literal `3N` on macOS; the direct-connect flag only skipped an explicit proxy argument; a bare `ok=true` could reach acknowledgement without a receipt.
+- Reproduction: run the original export with BSD date, inherited proxy variables, or a loopback fixture returning `{"ok":true}` without `message_id`.
+- Cause: environment-specific shell behavior and insufficient validation at the exported HTTP client boundary.
+- Fix: use Python UTC millisecond timestamps, an explicit curl proxy bypass, isolated state configuration, and pre-send ID plus receipt validation.
+- Regression: `python -m unittest test_muse_helpers -v` exercises the public scripts against temporary loopback fixtures and private temporary files.
+- Prevention: verify exported helpers as clients with their documented environment overrides, output protocol, failure paths and private-log behavior.
+- Scope: public Muse helper copies and fixtures. Existing running deployments are separate from this publication.
+- Fixed in: the autofeed/timing publication update.

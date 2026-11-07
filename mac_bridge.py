@@ -7,12 +7,15 @@ BRIDGE_PORT (8765), BRIDGE_STORE (inbox.jsonl beside this file).
 
 OneBot HTTP POST uses X-Signature: sha1=<HMAC-SHA1 of the exact request body>
 with ONEBOT_REPORT_SECRET; Muse uses X-Bridge-Token for /inbox, /ack, /send.
-Only /health is anonymous. Keep the listener local and use private Tailscale
-Serve for remote access. This process never generates replies or retries sends.
+/inbox-tailnet is a read-only alternative restricted to socket peers in the
+Tailscale IPv4 range or loopback. Keep the listener local and use private
+Tailscale Serve for remote access. This process never generates replies or
+retries sends.
 """
 
 import hashlib
 import hmac
+import ipaddress
 import json
 import os
 import tempfile
@@ -36,6 +39,7 @@ MAX_CHUNK_LINE = 128
 MAX_CHUNKS = 1024
 MAX_CHUNK_OVERHEAD = 65536
 LOCK = threading.RLock()
+TAILNET_IPV4 = ipaddress.ip_network("100.64.0.0/10")
 
 
 def load():
@@ -113,6 +117,18 @@ def onebot_send(user_id, text):
 
 def _identifier(value):
     return (type(value) is int or isinstance(value, str)) and bool(str(value)) and len(str(value)) <= 128
+
+
+def _tailnet_peer(peer):
+    """Authorize the socket peer, never client-supplied forwarding headers."""
+    try:
+        address = ipaddress.ip_address(peer)
+    except ValueError:
+        return False
+    if isinstance(address, ipaddress.IPv6Address) and address.ipv4_mapped:
+        address = address.ipv4_mapped
+    return address.is_loopback or (
+        isinstance(address, ipaddress.IPv4Address) and address in TAILNET_IPV4)
 
 
 def _private_text(event):
@@ -239,10 +255,12 @@ class H(BaseHTTPRequestHandler):
         pass
 
     def do_GET(self):
-        if self.path not in ("/health", "/inbox"):
+        if self.path not in ("/health", "/inbox", "/inbox-tailnet"):
             return self._json(404, {"error": "not found"})
         if self.path == "/inbox" and not self._auth():
             return self._json(401, {"error": "bad token"})
+        if self.path == "/inbox-tailnet" and not _tailnet_peer(self.client_address[0]):
+            return self._json(403, {"error": "forbidden"})
         try:
             rows = [r for r in load() if not r.get("acked")]
         except (OSError, ValueError):

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Add a source-restricted, read-only `/inbox-tailnet` endpoint for wake-time message delivery.
+- Include configurable Muse-side inbox and reply helpers with pending-only fallback and private timing logs.
+- Document one-consumer hook operation, autonomous tool use, send-before-ack handling, and latency boundaries.
+- Record the November 7 live deployment's single-sample timing comparison separately from the public port's automated checks.
+
 ## 0.1.0 — 2026-10-29
 
 - Publish the Muse ↔ private bridge ↔ official QQ sandbox integration method.

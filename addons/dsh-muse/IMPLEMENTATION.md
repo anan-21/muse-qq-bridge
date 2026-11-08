@@ -13,7 +13,7 @@ configured. No live service, account, queue or credential is changed by this wor
 | D4 | Dedicated handoff broker | Private bind, separate tokens, durable idempotency, owner-only sends, unknown sends never retried | Implemented; offline checks passed |
 | D5 | Muse helpers | Retrieve private context before wake; send receipt before ack; retain messages on errors | Implemented; offline checks passed |
 | D6 | Pinned upstream integration | Verify the supported upstream files, back up before patching, refuse unknown layouts; remain inert without configuration | Implemented; offline checks passed |
-| D7 | Publication | Offline end-to-end tests, full existing regressions, privacy review and documented installation/limits | Local checks passed; published CI pending |
+| D7 | Publication | Offline end-to-end tests, full existing regressions, privacy review and documented installation/limits | Local and Linux CI checks passed; live deployment excluded |
 
 Affected interfaces: new add-on HTTP routes and configuration; DSHFish ingress,
 session text export and local memory export; separate SQLite state; optional Muse
@@ -66,3 +66,7 @@ whitelist and deployment remain unchanged. There is no new application UI.
   rule validation and staged whitespace review passed. No live account test or
   deployment was performed. Linux CI will additionally run the original service
   syntax verification that macOS cannot execute.
+- Published Linux gate for functional baseline `4c17d801f423267597f93e02f692293844691404`:
+  [Tests run](https://github.com/anan-21/muse-qq-bridge/actions/runs/42445447485)
+  succeeded. Includes both existing contracts and the add-on job. Publication
+  uses public noreply commit identities; running services/accounts remain untouched.

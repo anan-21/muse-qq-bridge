@@ -9,6 +9,15 @@ config/
 state/
 *.db
 *.db-*
+*.sqlite3
+*.sqlite3-*
+dsh-token
+muse-token
+onebot-token
+dsh-router.json
+muse-client.json
+broker.json
+.muse-switch-backup*/
 *.jsonl
 *.log
 *.tar

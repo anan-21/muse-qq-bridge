@@ -1,5 +1,15 @@
 # Project bug memory
 
+## Bug 004 — A second optional broker could reconcile an active send
+
+- Symptom: without an OS process lock, starting another broker with the same SQLite directory could mark the first process's active reservation unknown during startup recovery.
+- Reproduction: create two Store instances against one state directory while the first owns it; process-local thread locks cannot protect this path.
+- Cause: crash reconciliation ran before proving exclusive ownership of the persistent state.
+- Fix: take an exclusive nonblocking process lock before opening/reconciling the database and hold it until close.
+- Regression: `addons/dsh-muse/test_broker.py` tests second-writer rejection, reservation-before-I/O and crash recovery independently.
+- Prevention: acquire cross-process ownership before recovering durable network operations; a thread lock cannot establish that another process died.
+- Scope: new optional DSH/Muse broker only; no running deployment was changed.
+
 ## Bug 001 — Quoted scalar fields prevented systemd unit loading
 
 - Symptom: Linux CI rejected generated units: WorkingDirectory path was not absolute; user/group quotes were treated as part of the identity.

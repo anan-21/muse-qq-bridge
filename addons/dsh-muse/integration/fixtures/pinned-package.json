@@ -1,0 +1,21 @@
+{
+  "name": "dsh-fish",
+  "version": "0.2.8",
+  "description": "养大肥鱼：让 DeepSeek Harness 通过 QQ（OneBot v11）和你聊天",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./extensions": "./lib/extensions.js"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

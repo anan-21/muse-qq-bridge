@@ -15,6 +15,7 @@
 <p>
   <a href="docs/quickstart.md">快速开始</a> ·
   <a href="#两种-qq-接法">QQ 小号接入</a> ·
+  <a href="addons/dsh-muse/README.md">DSH + Muse 附加版</a> ·
   <a href="docs/muse-integration.md">接入 Muse</a> ·
   <a href="SECURITY.md">安全说明</a>
 </p>
@@ -24,6 +25,8 @@
 把 Muse 中现有的智能体接到 QQ 单聊。日常陪伴、角色扮演，或让她查资料、看记忆、调用工具，都交给你原来的 Muse；这座桥负责传话和确认回复。
 
 **不需要另外填写 DeepSeek、OpenAI 等模型 API key。** 回复由你的 Muse 会话生成，需要你自己的 Muse 账号和可用工具环境；QQ 通道和消息桥仍需各自的登录或鉴权配置。
+
+已有 DSH「大肥鱼」的用户另见 [DSH + Muse 自动接力附加版](addons/dsh-muse/README.md)：普通话题走 DSH，命中 Muse 话题规则时带着获准的上下文与记忆交接，恢复普通话题后自动切回。**NSFW / 18+ 可设为 Muse 接管标签**，在调用 DeepSeek 前分流。附加版沿用 DSH 自己的 DeepSeek 配置；首版支持固定上游的 Linux / macOS 源码环境，未支持 Windows 打包版。
 
 ## 接上以后，能做什么
 
@@ -113,6 +116,7 @@ python3 -m venv .venv
 | --- | --- |
 | 第一次部署 | [五步接入指南](docs/quickstart.md) |
 | 用自己的 QQ 小号接入 | [小号 / OneBot 接线说明](docs/onebot.md) |
+| DSH 普通话题 + Muse 接力 | [可选附加版：安装、记忆范围与自动切回](addons/dsh-muse/README.md) |
 | 配置服务托管或迁移旧部署 | [Linux 部署与迁移](docs/deployment.md) |
 | 安装 Muse 钩子与回复 helper | [接入约定](docs/muse-integration.md) · [脚本配置](muse/README.md) |
 | 核对接口与访问边界 | [HTTP API](docs/api.md) · [安全说明](SECURITY.md) |

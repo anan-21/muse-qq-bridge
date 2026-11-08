@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add an optional, checksum-pinned DSHFish/Muse private-text handoff package: local pre-model topic routing, scoped context and memory pickup, automatic return to DSH, independent durable send/ack state, and offline cross-runtime tests. Source-run Linux/macOS only; no running deployment changes.
+
 - Present the project as Muse-to-QQ integration, distinguish the bundled official adapter from self-managed OneBot account connections, and document the scope of reported adult text chat capabilities without delivery guarantees.
 
 - Reorganize the README around capabilities, setup prerequisites and document navigation; move the complete setup walkthrough into `docs/quickstart.md`.

@@ -32,3 +32,11 @@ SOFTWARE.
 `aiohttp` and the SDK's other dependencies retain their own distribution
 licenses. This repository does not contain the Muse app, a model implementation,
 Tencent QQ, or Tailscale. No affiliation with their vendors is implied.
+
+The optional DSH/Muse integration targets `kylian-08/dafeiyu-qq-bot` at commit
+`a16bb96e1f0997fda063ec46bc965622e58d6bb7` (`dsh-fish` 0.2.8). Its pinned
+patch anchors and synthetic test wrapper patterns are adapted from that MIT
+licensed source. Copyright (c) 2026 kylian-08; the full applicable notice is in
+[addons/dsh-muse/UPSTREAM-LICENSE.txt](addons/dsh-muse/UPSTREAM-LICENSE.txt).
+Users obtain the upstream application separately. This repository does not
+bundle DeepSeek Harness, model weights, the Muse app, or NapCat.

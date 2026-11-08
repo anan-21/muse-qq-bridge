@@ -9,9 +9,6 @@ Keep live-deployment timing evidence separate from public-code tests. A single s
 Documentation may describe the existing bridge OneBot contract for self-managed QQ account transports. Distinguish this advanced wiring from the bundled official adapter; do not imply a personal-account installer, verified session stability or identical send-journal guarantees. Adult text-chat claims need attributed evidence and separate Muse capability from QQ delivery rules.
 Public release review includes historical blobs, commit messages, author and committer metadata. New commits and hosted merges must use a GitHub noreply identity; never print private identifiers in review output.
 
-The optional addons/dsh-muse package has a separate queue, tokens and consumer.
-Its local rules route owner-private text before DSH generation, never on refusal.
-Automatic return requires no pending/unknown Muse work, including local unknown
-handoffs. Context export is one-way, scoped and explicitly enabled. Source-run
-Linux/macOS DSHFish is supported only at the checksum-pinned upstream baseline;
-packaged Windows support and live installation are outside this publication.
+The DSH/Muse optional feature is maintained separately in anan-21/dsh-muse-qq.
+This repository keeps only an old-path migration pointer and links to that project;
+its implementation, contracts and tests belong to the independent repository.

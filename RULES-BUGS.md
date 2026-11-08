@@ -6,9 +6,9 @@
 - Reproduction: create two Store instances against one state directory while the first owns it; process-local thread locks cannot protect this path.
 - Cause: crash reconciliation ran before proving exclusive ownership of the persistent state.
 - Fix: take an exclusive nonblocking process lock before opening/reconciling the database and hold it until close.
-- Regression: `addons/dsh-muse/test_broker.py` tests second-writer rejection, reservation-before-I/O and crash recovery independently.
+- Regression: the original `addons/dsh-muse/test_broker.py` tested second-writer rejection, reservation-before-I/O and crash recovery independently; it is now maintained as [test_broker.py](https://github.com/anan-21/dsh-muse-qq/blob/main/test_broker.py) in the separate project.
 - Prevention: acquire cross-process ownership before recovering durable network operations; a thread lock cannot establish that another process died.
-- Scope: new optional DSH/Muse broker only; no running deployment was changed.
+- Scope: optional DSH/Muse broker only; retained here as historical evidence. The feature moved to the independent dsh-muse-qq repository on 2026-11-08; no running deployment was changed.
 
 ## Bug 001 — Quoted scalar fields prevented systemd unit loading
 
